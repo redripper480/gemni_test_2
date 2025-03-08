@@ -1,40 +1,41 @@
-// Load environment variables from .env file
-require('dotenv').config();
-
-document.getElementById('contentForm').addEventListener('submit', async (e) => {
-  e.preventDefault();
-
-  const topic = document.getElementById('topic').value;
+document.getElementById('contentForm').addEventListener('submit', async (event) => {
+  event.preventDefault();
+  const formData = new FormData(event.target); // Create a FormData object from the form
   const resultDiv = document.getElementById('result');
-
-  // Clear previous results
-  resultDiv.textContent = 'Generating content...';
+  resultDiv.innerHTML = 'Generating content...';
+  
+  const data = {};
+  formData.forEach((value, key) => {
+    data[key] = value;
+  });
+  console.log(data);
 
   try {
-    // Fetch content from Gemini API
-    const response = await fetch('https://api.gemini.com/v1/generate', {
+    const response = await fetch('http://localhost:3000/generate_article', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.GEMINI_API_KEY}`,
       },
-      body: JSON.stringify({
-        prompt: `Write a short article about ${topic}`,
-        max_tokens: 100,
-      }),
+      body: JSON.stringify(data),
     });
 
-    if (!response.ok) {
-      throw new Error(`Error: ${response.status}`);
-    }
-
-    const data = await response.json();
-    const generatedContent = data.choices[0].text;
-
-    // Display the generated content
-    resultDiv.textContent = generatedContent;
+    const result = await response.json();
+    resultDiv.innerHTML = result.article;
   } catch (error) {
-    console.error(error);
-    resultDiv.textContent = 'An error occurred while generating content.';
+    resultDiv.textContent = "There was an error generating the article. Please Try again"
   }
 });
+
+
+  
+  //   const generatedContent = data.choices[0].text;
+
+  //   // Display the generated content
+  //   resultDiv.textContent = generatedContent;
+  // } catch (error) {
+  //   console.error(error);
+  //   resultDiv.textContent = 'An error occurred while generating content.';
+  // }
+
+
+
