@@ -1,6 +1,6 @@
 document.getElementById('contentForm').addEventListener('submit', async (event) => {
   event.preventDefault();
-  const formData = new FormData(event.target); // Create a FormData object from the form
+  const formData = new FormData(event.target);
   const resultDiv = document.getElementById('result');
   resultDiv.innerHTML = 'Generating content...';
   
