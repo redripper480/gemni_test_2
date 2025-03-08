@@ -27,15 +27,4 @@ document.getElementById('contentForm').addEventListener('submit', async (event) 
 });
 
 
-  
-  //   const generatedContent = data.choices[0].text;
-
-  //   // Display the generated content
-  //   resultDiv.textContent = generatedContent;
-  // } catch (error) {
-  //   console.error(error);
-  //   resultDiv.textContent = 'An error occurred while generating content.';
-  // }
-
-
 
